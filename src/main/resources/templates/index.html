@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="shop">
+
+  <head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+
+    <title>Angular</title>
+
+    <!-- Angular js -->
+    <script src="vendor/Angular/angular.min.js"></script>
+    <script src="vendor/Angular/angular-route.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/controllers/clientController.js"></script>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/resset.css" rel="stylesheet"/>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    
+    <!-- jquery plugins -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css"/>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+     <script src="vendor/jquery/jquery.mask.min.js"></script>
+    
+    <!-- jgrowl -->
+    <link href="vendor/jGrowl-master/jquery.jgrowl.min.css" rel="stylesheet"/>
+	<script src="vendor/jGrowl-master/jquery.jgrowl.min.js"></script>
+	
+	<!-- x-validation -->
+    <script src="js/x-validation.js"></script>
+    
+    <!-- Custom styles for this template -->
+    <style>
+      .jGrowl-notification{
+      	background-color: 	#7CFC00;
+      }
+      .jGrowl-closer {
+      	background-color: 	#7CFC00;
+      }
+      body {
+        padding-top: 54px;
+      }
+      @media (min-width: 992px) {
+        body {
+          padding-top: 56px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">Angular</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#!">Home
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!customers">Clientes</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+    	<div class="col-lg-12 ">
+         	<div class="ng-view"></div>
+        </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,102 @@
+<div class="center-div col-lg-6">
+	<div ng-show="errorMsg" class="alert alert-danger" ng-init="satesLoad();">
+		<strong>Erro:</strong> {{errorMsg}}
+	</div>
+	
+	<form ng-show="!errorMsg" class="containner" name="form" id="form">
+		
+		<div class="text-center">
+			<h1 id="msg" class="mt-5">Cadastro de Cliente</h1>
+		</div>
+		
+		<hr/>
+		
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="file">
+					<img id="photo" class="img-circle" src="user_photos/default.png"/>
+					<input id="file" type="file"/>
+				</div>
+			</div>
+		</div>
+		<br/>
+
+		<div class="row">
+			<div class="col-lg-6">
+				<span name="xpan" value="Digite o Nome." for="nome-empty">Pre-encha: </span>
+				Nome:
+				<input type="text" ng-model="client.name" title="Nome" id="nome" class="xval-notEmpty form-control" placeholder="Nome"/>
+			</div>
+			
+			<div class="col-lg-6">
+				<span name="xpan" value="Digite o Telefone" for="telefone-empty">Pre-encha: </span>
+				Telefone:
+				<input type="text" ng-model="client.phone" id="telefone" class="xval-notEmpty form-control" placeholder="Telefone"/>
+			</div>
+		</div>
+		
+		<br/>
+		
+		<div class="row">
+			<div class="col-lg-6">
+				<span name="xpan" value="Digite o Endereço" for="endereco-empty">Pre-encha: </span>
+				Endereço:
+				<input type="text" ng-model="client.address" id="endereco" class="xval-notEmpty form-control" placeholder="Endereço"/>
+			</div>
+			<div class="col-lg-6">
+				<span name="xpan" value="Selecione o  Sexo" for="sex">Selecione: </span>
+				Sexo:
+				<select id="sex" class="xval form-control" ng-model="client.sex">
+					<option value="M">
+						Masculino
+					</option>
+					<option value="F">
+						Feminino
+					</option>
+				</select>
+			</div>
+		</div>
+		<br/>
+		
+		<div class="row">
+			<div class="col-lg-6" >
+				<span name="xpan" value="Selecione o  UF" for="state">Selecione: </span>
+				UF:
+				<select id="state" ng-model="client.state.id" class="xval form-control" ng-change="citiesLoad(client.state.id)">
+					<option ng-repeat="state in states" value="{{state.id}}" >
+						{{state.initials}}
+					</option>
+				</select>
+			</div>
+
+			<div class="col-lg-6">
+				<span name="xpan" value="Selecione a Cidade" for="city">Selecione: </span>
+				Cidade:
+				<select id="city" ng-model="client.city.id" class="xval form-control">
+					<option ng-repeat="city in cities" ng-value="{{city.id}}" >
+						{{city.name}}
+					</option>
+				</select>
+			</div>
+		</div>
+		<br/>
+	
+		
+		<div class="row">
+			<div class="col-lg-12">
+				<label class="radio-inline"><input type="radio" value="Programação" name="interest" ng-model="client.interest" ng-selected="true"> Programação</label>
+				<label class="radio-inline"><input type="radio" value="Banco de dados" name="interest" ng-model="client.interest"> Banco de Dados</label>
+				<label class="radio-inline"><input type="radio" value="Análise" name="interest" ng-model="client.interest"> Análise</label>
+			</div>
+		</div>
+		
+		<div class="form-check">
+		 <label class="form-check-label">
+		    <input type="checkbox" class="form-check-input" id="active" ng-model="client.active" />
+		    Ativo
+		  </label>
+		</div>
+		<input id="submit" type="submit" ng-click="post(client);" value="Cadastrar" class="btn btn-primary form-control" />
+		
+	</form>
+</div>
