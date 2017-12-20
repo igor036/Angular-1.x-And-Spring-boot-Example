@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 import com.linecode.shop.model.Client;
 
+import static org.mockito.Matchers.booleanThat;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -37,14 +39,17 @@ public class ServiceFile {
 			return true;
 		}
 		
+		if (client.getPhoto().contains("http://localhost"))
+			return true;
 		
 		try {
 			
 			String strBase64 = client.getPhoto().replaceAll("data:image/jpeg;base64,", "");
 			String urlPhoto = strPath+"/"+client.getName()+".jpg";
 			
+	
+			File photo = new File(urlPhoto.replace("%", ""));
 			
-			File photo = new File(urlPhoto);
 			if (photo.exists())
 				photo.delete();
 			
@@ -67,12 +72,16 @@ public class ServiceFile {
 		
 	}
 	
-	public void deletePhoto(Client client) {
+	public void deletePhoto(Client client) {	
 		
-		String urlPhoto = strPath+"/"+client.getName()+".jpg";
-		File photo = new File(urlPhoto);
-		
-		if (!client.getPhoto().equals("user_photos/default.png") && photo.exists())
+		if (!client.getPhoto().equals("user_photos/default.png")) {
+			String urlPhoto = strPath+"/"+
+								client.getPhoto().replaceAll("%", "")
+									  .split("client_photos//")[1];
+			File photo = new File(urlPhoto);
 			photo.delete();
+		}
+			
 	}
+
 }
