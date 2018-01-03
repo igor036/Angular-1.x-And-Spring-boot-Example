@@ -8,59 +8,35 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.TableGenerator;
-import javax.persistence.ForeignKey;
 
 @Entity
-@TableGenerator(initialValue = 0, name = "gen_id")
-public class Client implements Serializable {
-
+public class Provider implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY, generator ="gen_id")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	
 	@Column
 	private String name;
-
+	
 	@Column
-	private String phone;
+	private String cnpj;
 	
 	@Column
 	private String address;
-
-	@Column
-	private char sex;
-
-	@Column
-	private boolean active;
-	
-	@Column
-	private String interest;
-	
-	@ManyToOne
-	private States state;
 	
 	@ManyToOne
 	private Cities city;
-
-	@Column(columnDefinition="text")
+	
+	@Column
 	private String photo;
-	
-	
-	public String getPhoto() {
-		return photo;
-	}
-	
-	public void setPhoto(String photo) {
-		this.photo = photo;
-	}
-	
+
 	public long getId() {
 		return id;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -69,12 +45,12 @@ public class Client implements Serializable {
 		this.name = name;
 	}
 
-	public String getPhone() {
-		return phone;
+	public String getCnpj() {
+		return cnpj;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
 	}
 
 	public String getAddress() {
@@ -83,39 +59,6 @@ public class Client implements Serializable {
 
 	public void setAddress(String address) {
 		this.address = address;
-	}
-	
-	public char getSex() {
-		return sex;
-	}
-	
-	public void setSex(char sex) {
-		this.sex = sex;
-	}
-	
-
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-	
-	public String getInterest() {
-		return interest;
-	}
-	
-	public void setInterest(String interest) {
-		this.interest = interest;
-	}
-
-	public States getState() {
-		return state;
-	}
-
-	public void setState(States state) {
-		this.state = state;
 	}
 
 	public Cities getCity() {
@@ -126,6 +69,14 @@ public class Client implements Serializable {
 		this.city = city;
 	}
 
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -133,7 +84,7 @@ public class Client implements Serializable {
 		result = prime * result + (int) (id ^ (id >>> 32));
 		return result;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -142,7 +93,7 @@ public class Client implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Client other = (Client) obj;
+		Provider other = (Provider) obj;
 		if (id != other.id)
 			return false;
 		return true;

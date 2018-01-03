@@ -92,7 +92,7 @@ public abstract class DAO <T> {
 		Query query = entityManager.createNativeQuery(queryStr);
 		
 		int countElements = Integer.parseInt(query.getSingleResult().toString());
-		int nPagseCount = countElements % 2 != 0 ? (countElements / 5) + 1 : (countElements / 5);
+		int nPagseCount = countElements % 5 != 0 ? (countElements / 5) + 1 : (countElements / 5);
 		
 		return nPagseCount;
 	}

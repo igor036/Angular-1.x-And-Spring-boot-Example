@@ -1,0 +1,73 @@
+<div class="center-div col-lg-6">
+	<div ng-show="errorMsg" class="alert alert-danger" ng-init="satesLoad();">
+		<strong>Erro:</strong> {{errorMsg}}
+	</div>
+	
+	<form ng-show="!errorMsg" class="containner" name="form" id="form">
+		
+		<div class="text-center">
+			<h1 id="msg" class="mt-5">Cadastro de Fornecedor</h1>
+		</div>
+		
+		<hr/>
+		
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="file">
+					<img id="photo" class="img-circle" src="user_photos/default.png"/>
+					<input id="file" type="file"/>
+				</div>
+			</div>
+		</div>
+		<br/>
+
+		<div class="row">
+			<div class="col-lg-6">
+				<span name="xpan" value="Digite o Nome." for="nome-empty">Pre-encha: </span>
+				Nome:
+				<input type="text" ng-model="provider.name" title="Nome" id="nome" class="xval-notEmpty form-control" placeholder="Nome"/>
+			</div>
+			<div class="col-lg-6">
+				<span name="xpan" value="Digite o cnpj." for="cnpj-empty">Pre-encha: </span>
+				CNPJ:
+				<input type="text" ng-model="provider.cnpj" title="Nome" id="cnpj" class="xval-notEmpty form-control" placeholder="Nome"/>
+			</div>
+		</div>
+		
+		<br/>
+		
+		<div class="row">
+			<div class="col-lg-6">
+				<span name="xpan" value="Digite o Endereço" for="endereco-empty">Pre-encha: </span>
+				Endereço:
+				<input type="text" ng-model="provider.address" id="endereco" class="xval-notEmpty form-control" placeholder="Endereço"/>
+			</div>
+			<div class="col-lg-6" >
+				<span name="xpan" value="Selecione o  UF" for="state">Selecione: </span>
+				UF:
+				<select id="state" ng-model="stateId" class="xval form-control" ng-change="citiesLoad(stateId)">
+					<option ng-repeat="state in states" value="{{state.id}}" >
+						{{state.initials}}
+					</option>
+				</select>
+			</div>
+		</div>
+		<br/>
+		
+		<div class="row">
+			<div class="col-lg-6">
+				<span name="xpan" value="Selecione a Cidade" for="city">Selecione: </span>
+				Cidade:
+				<select id="city" ng-model="provider.city.id" class="xval form-control">
+					<option ng-repeat="city in cities" ng-value="{{city.id}}" >
+						{{city.name}}
+					</option>
+				</select>
+			</div>
+		</div>
+		<br/>
+		
+		<input id="submit" type="submit" ng-click="post(client);" value="Cadastrar" class="btn btn-primary form-control" />
+		
+	</form>
+</div>

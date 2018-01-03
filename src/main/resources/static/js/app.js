@@ -1,6 +1,8 @@
 var app = angular.module("shop", ["ngRoute"]);
 app.config(function($routeProvider) {
     $routeProvider
+    
+    //client
     .when("/customers", {
         controller : "clientController",
         templateUrl : "/client/list.htm"
@@ -12,5 +14,19 @@ app.config(function($routeProvider) {
     .when("/editClient/:id", {
         controller : "clientController",
         templateUrl : "/client/form.htm"
+    })
+    
+    //provider
+    .when("/providers", {
+        controller : "providerController",
+        templateUrl : "/provider/list.htm"
+    })
+    .when("/newProvider", {
+        controller : "providerController",
+        templateUrl : "/provider/form.htm"
+    })
+    .when("/editProvider/:id", {
+        controller : "providerController",
+        templateUrl : "/provider/form.htm"
     });
 });
