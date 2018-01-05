@@ -1,0 +1,49 @@
+<div class="center-div" ng-init="loadBooks();">
+	<div class="containner">
+		<div class="text-center">
+			<h1 class="mt-5">Lista de Livros</h1>
+		</div>
+		<hr/>
+		<div ng-show="errorMsg" class="alert alert-danger">
+			<strong>Erro:</strong> {{errorMsg}}
+		</div>
+		<span style="float: left;" class="gray-span">Filtro:</span><br/>
+		<input type="text" placeholder="Pesquisar" ng-model="search" class="form form-control col-lg-3"/><br>
+		<a style="float: left; padding: 10px" href="#!newBook">Cadastrar&nbsp;<img src="icon/add.png" width="20px"/></a>
+		<table ng-show="!errorMsg" class="table">
+			<thead class="table-dark">
+				<td scope="col">Descrição</td>
+				<td scope="col">Autor</td>
+				<td scope="col">Ano Publicação</td>
+				<td></td>
+				<td></td>
+			</thead>
+			<tr scope="row" ng-repeat="book in bookList = (books | filter:search)">
+				<td>{{book.description}}</td>
+				<td>{{book.author}}</td>
+				<td>{{book.year}}</td>
+				<td>
+					<a href="#!editBook/{{book.id}}"><button class="btn btn-info">Editar</button></a>
+				</td>
+				<td>
+					<button class="btn btn-danger" ng-click="delete(book.id);">Excluír</button>
+				</td>
+			</tr>
+		</table>
+		<span class="gray-span">Total Livros: {{bookList.length}}</span>
+		<div class="text-center">
+			<b> Página: {{pag_index}} de: {{pagesCount}} </b>
+			<br/>
+			<button class="btn btn-primary" 
+					ng-disabled="pag_index <= 1" 
+					ng-click="previousPag();">
+				Anterior
+			</button>
+			<button class="btn btn-success"
+					ng-disabled="pag_index == pagesCount"
+					ng-click="nextPag();">
+				Próxima
+			</button>
+		</div>
+	</div>
+</div>

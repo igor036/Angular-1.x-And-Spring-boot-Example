@@ -13,64 +13,55 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.linecode.shop.dao.ProviderDao;
-import com.linecode.shop.model.Client;
-import com.linecode.shop.model.Provider;
+import com.linecode.shop.dao.BookDao;
+import com.linecode.shop.model.Book;
 import com.linecode.shop.service.ServiceFile;
 
 @Controller
-public class ProviderController {
-
-	//create new generic controller for crud methods.
+public class BookController {
 	
 	@Autowired
-	private ProviderDao providerDao;
+	private BookDao bookDao;
 	
 	@Autowired
 	private ServiceFile serviceFile;
 	
-	@GetMapping("/providers")
+	@GetMapping("/books")
 	@ResponseBody
 	@Cacheable
-	public List<Provider> list(@RequestParam("pagIndex") int pagIndex){
-		return providerDao.page(pagIndex);
+	public List<Book> list(@RequestParam("pagIndex") int pagIndex){
+		return bookDao.page(pagIndex);
 	}
 	
-	@GetMapping("/providers/search")
-	@ResponseBody
-	public List<Provider> search(@RequestParam("name") String name){
-		return providerDao.search(name);
-	}
-	
-	@GetMapping("/providers/pagesCount")
+	@GetMapping("/books/pagesCount")
 	@ResponseBody
 	public int pagesCount() {
 		System.out.println("count");
-		return providerDao.pagesCount();
+		return bookDao.pagesCount();
 	}
 	
-	@GetMapping("/providers/{id}")
+	@GetMapping("/books/{id}")
 	@ResponseBody
-	public Provider get(@PathVariable long id) {
-		return providerDao.find(id);
+	public Book get(@PathVariable long id) {
+		return bookDao.find(id);
 	}
 	
-	@DeleteMapping("/providers/{id}")
+	@DeleteMapping("/books/{id}")
 	@ResponseBody
 	public String delete(@PathVariable("id") long id) {
-		Provider provider = providerDao.find(id);
-		serviceFile.deletePhoto(provider);
-		if (providerDao.delete(id))
+		Book book = bookDao.find(id);
+		serviceFile.deletePhoto(book);
+		if (bookDao.delete(id))
 			return "deleted";
 		return "error";
 	}
 	
 	
-	@PostMapping("/providers/save")
+	@PostMapping("/books/save")
 	@ResponseBody
-	public Provider insert(@RequestBody Provider provider) {
-		if(serviceFile.savePhoto(provider))
-			return providerDao.insertOrUpdate(provider);
+	public Book insert(@RequestBody Book book) {
+		if(serviceFile.savePhoto(book))
+			return bookDao.insertOrUpdate(book);
 		return null;
 	}
 }

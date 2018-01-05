@@ -1,0 +1,70 @@
+<div class="center-div col-lg-6">
+	<div ng-show="errorMsg" class="alert alert-danger" >
+		<strong>Erro:</strong> {{errorMsg}}
+	</div>
+	
+	<form ng-show="!errorMsg" class="containner" name="form" id="form">
+		
+		<div class="text-center">
+			<h1 id="msg" class="mt-5">Cadastro de Livro</h1>
+		</div>
+		
+		<hr/>
+		
+		<div class="row">
+			<div class="col-lg-6" ng-init="book.photo = ''">
+				<div class="file">
+					<img id="photo" class="img-circle" src="user_photos/default.png"/>
+					<input id="file" type="file"/>
+				</div>
+			</div>
+		</div>
+		<br/>
+
+		<div class="row">
+			<div class="col-lg-6">
+				<span name="xpan" value="Digite a Descrição." for="name-empty">Pre-encha: </span>
+				Descrição:
+				<input type="text" ng-model="book.description" title="Description" id="description" class="xval-notEmpty form-control" placeholder="Descrição"/>
+			</div>
+			<div class="col-lg-6">
+				<span name="xpan" value="Digite o nome do Autor" for="author-empty">Pre-encha: </span>
+				Autor:
+				<input type="text" class="xval-notEmpty form-control" id="author" name="author" ng-model="book.author"/>
+			</div>
+		</div>
+		
+		<br/>
+		
+		<div class="row">
+			<div class="col-lg-9" ng-init="book.provider = ''">
+				<span name="xpan" value="Digite o Fornecedor" for="provider-empty">Pre-encha: </span>
+				Fornecedor:
+				<input type="text" id="provider" class="form-control" ng-model="search" ng-keyup="providerSearch(search)" /> 
+				<ul class="list-group">
+					<li class="list-group-item" ng-repeat="provider in providers" ng-click="selectProvider(provider)">
+						{{provider.name}}
+					</li>
+				</ul>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-lg-3">
+				<span name="xpan" value="Digite o Ano de Publicação" for="year-empty">Pre-encha: </span>
+				Ano Publ.:
+				<input type="number" ng-model="book.year" id="year" class="xval-notEmpty form-control" placeholder="Ano Publicação"/>
+			</div>
+			
+			<div class="col-lg-3">
+				<span name="xpan" value="Digite o N.Páginas" for="pages-empty">Pre-encha: </span>
+				N. Páginas:
+				<input type="number" ng-model="book.pages" id="pages" class="xval-notEmpty form-control" placeholder="Número de páginas"/>
+			</div>
+		</div>
+		
+		<br/>
+		<input id="submit" type="submit" ng-click="post(book);" value="Cadastrar" class="btn btn-primary form-control" />
+		
+	</form>
+</div>

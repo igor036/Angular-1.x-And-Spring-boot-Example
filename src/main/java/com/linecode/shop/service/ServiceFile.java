@@ -3,6 +3,7 @@ package com.linecode.shop.service;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.stereotype.Service;
 
+import com.linecode.shop.model.Book;
 import com.linecode.shop.model.Client;
 import com.linecode.shop.model.Provider;
 
@@ -83,6 +84,32 @@ public class ServiceFile {
 	}
 	
 	
+	public boolean savePhoto(Book book) {
+		
+		strPath = "/var/www/html/book_photos";
+		path();
+		
+		if (book.getPhoto().contains("user_photos/default.png")) {
+			book.setPhoto("user_photos/default.png");
+			return true;
+		}
+		
+		if (book.getPhoto().contains("http://localhost"))
+			return true;
+		
+		String strBase64 = book.getPhoto().replaceAll("data:image/jpeg;base64,", "");
+		String urlPhoto = strPath+"/"+book.getDescription()+".jpg";
+		
+		
+		if (!savePhoto(strBase64, urlPhoto))
+			return false;
+		
+		book.setPhoto("http://localhost/book_photos//"+book.getDescription()+".jpg");
+		return true;
+		
+	}
+	
+	
 	private boolean savePhoto(String strBase64,String urlPhoto) {
 		
 		try {
@@ -131,6 +158,20 @@ public class ServiceFile {
 			String urlPhoto = strPath+"/"+
 					provider.getPhoto().replaceAll("%", "")
 									  .split("provider_photos//")[1];
+			File photo = new File(urlPhoto);
+			photo.delete();
+		}
+			
+	}
+	
+	public void deletePhoto(Book book) {	
+		
+		strPath = "/var/www/html/book_photos";
+		
+		if (!book.getPhoto().equals("user_photos/default.png")) {
+			String urlPhoto = strPath+"/"+
+					book.getPhoto().replaceAll("%", "")
+									  .split("book_photos//")[1];
 			File photo = new File(urlPhoto);
 			photo.delete();
 		}

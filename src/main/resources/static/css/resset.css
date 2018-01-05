@@ -72,3 +72,8 @@ file{
 .file:hover p:before{
 	content: "\01F4C2";
 }
+
+.list-group-item:hover {
+	background-color: #4169E1;
+	color: white;
+}

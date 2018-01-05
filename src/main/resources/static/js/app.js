@@ -28,5 +28,20 @@ app.config(function($routeProvider) {
     .when("/editProvider/:id", {
         controller : "providerController",
         templateUrl : "/provider/form.htm"
+    })
+    
+    //book
+    .when("/books", {
+        controller : "bookController",
+        templateUrl : "/book/list.htm"
+    })
+    .when("/newBook", {
+        controller : "bookController",
+        templateUrl : "/book/form.htm"
+    })
+    .when("/editBook/:id", {
+        controller : "bookController",
+        templateUrl : "/book/form.htm"
     });
+    
 });
