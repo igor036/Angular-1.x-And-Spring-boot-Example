@@ -1,4 +1,4 @@
-app.controller("bookController",function($scope, $http, $routeParams){
+app.controller("bookController",function($scope, $routeParams,BookService){
 	
 	load();
 
@@ -9,10 +9,7 @@ app.controller("bookController",function($scope, $http, $routeParams){
 
 	//load client for edit
 	if($routeParams.id){
-		$http({
-			method: "GET",
-			url: "/books/"+$routeParams.id,
-		}).then(function(response){
+		BookService.book($routeParams.id).then(function(response){
 			if (response.data) {
 				$("#submit").val("Editar cliente");
 				$("#msg").html("Editar cliente");
@@ -30,10 +27,7 @@ app.controller("bookController",function($scope, $http, $routeParams){
 
 	//function's
 	$scope.loadBooks = function (){
-		$http({
-			method: "GET",
-			url: "/books?pagIndex="+$scope.pag_index,
-		}).then(function(response){
+		BookService.loadBooks($scope.pag_index).then(function(response){
 			$scope.books = response.data;
 			if ($scope.books.length == 0 && $scope.pag_index > 1){
 				$scope.pag_index--;
@@ -46,10 +40,7 @@ app.controller("bookController",function($scope, $http, $routeParams){
 	};
 
 	$scope.loadPagesCount = function(){
-		$http({
-			method: "GET",
-			url: "/books/pagesCount",
-		}).then(function(response){
+		BookService.loadPagesCount().then(function(response){
 			if (response.data >= 0) {
 				$scope.pagesCount = response.data;
 			 }else
@@ -70,11 +61,9 @@ app.controller("bookController",function($scope, $http, $routeParams){
 	};
 
 	$scope.post = function(book){
-		console.log(book);
 		if (validationSubmit('form'))  {
 			$scope.book.photo = $("#photo").prop("src");
-			$http
-			.post("/books/save/", book, $scope.config_json)
+			BookService.post($scope.book)
 			.then(function success(response){
 				if(response.data){
 					$.jGrowl("Concluído com sucesso!");
@@ -101,8 +90,7 @@ app.controller("bookController",function($scope, $http, $routeParams){
 		            action: function(){
 						//request 
 						console.log(bookId);
-						$http
-						.delete("/books/"+bookId, $scope.config_text)
+						BookService.delete(bookId)
 						.then(function success(response){
 							if (response.data == "deleted") {
 								$scope.loadBooks();
@@ -127,10 +115,7 @@ app.controller("bookController",function($scope, $http, $routeParams){
 
 	$scope.providerSearch = function(search){
 		if (search) {
-			$http({
-				method: "GET",
-				url: "/providers/search?name="+search,
-			}).then(function(response){
+			BookService.providerSearch(search).then(function(response){
 				if (response.data) {
 					$scope.providers = response.data;
 				 }

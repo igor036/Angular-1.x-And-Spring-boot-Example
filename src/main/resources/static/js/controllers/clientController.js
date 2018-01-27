@@ -1,4 +1,4 @@
-app.controller("clientController",function($scope, $http, $routeParams){
+	app.controller("clientController",function($scope, $routeParams, ClientService,AddressService){
 	
 	load();
 
@@ -9,10 +9,7 @@ app.controller("clientController",function($scope, $http, $routeParams){
 
 	//load client for edit
 	if($routeParams.id){
-		$http({
-			method: "GET",
-			url: "/customers/"+$routeParams.id,
-		}).then(function(response){
+		ClientService.client($routeParams.id).then(function(response){
 			if (response.data) {
 				$("#submit").val("Editar cliente");
 				$("#msg").html("Editar cliente");
@@ -33,11 +30,9 @@ app.controller("clientController",function($scope, $http, $routeParams){
 	}
 
 	//function's
-	$scope.loadCustomers = function (){
-		$http({
-			method: "GET",
-			url: "/customers?pagIndex="+$scope.pag_index,
-		}).then(function(response){
+	$scope.loadCustomers = function () {
+	
+		ClientService.loadCustomers($scope.pag_index).then(function(response){
 			$scope.customers = response.data;
 			if ($scope.customers.length == 0 && $scope.pag_index > 0){
 				$scope.pag_index--;
@@ -50,10 +45,7 @@ app.controller("clientController",function($scope, $http, $routeParams){
 	};
 
 	$scope.loadPagesCount = function(){
-		$http({
-			method: "GET",
-			url: "/customers/pagesCount",
-		}).then(function(response){
+		ClientService.loadPagesCount().then(function(response){
 			if (response.data) {
 				$scope.pagesCount = response.data;
 				console.log($scope.pagesCount);
@@ -77,8 +69,7 @@ app.controller("clientController",function($scope, $http, $routeParams){
 	$scope.post = function(client){
 		if (validationSubmit('form'))  {
 			$scope.client.photo = $("#photo").prop("src");
-			$http
-			.post("/customers/save/", client, $scope.config_json)
+			ClientService.post(client)
 			.then(function success(response){
 				if(response.data){
 					$.jGrowl("Concluído com sucesso!");
@@ -104,8 +95,7 @@ app.controller("clientController",function($scope, $http, $routeParams){
 		            keys: ['enter', 'shift'],
 		            action: function(){
 						//request 
-						$http
-						.delete("/customers/"+clientId, $scope.config_text)
+						ClientService.delete(clientId)
 						.then(function success(response){
 							if (response.data == "deleted") {
 								$scope.loadCustomers();
@@ -130,8 +120,7 @@ app.controller("clientController",function($scope, $http, $routeParams){
 
 	//load states	
 	$scope.satesLoad = function(){
-		$http
-		.get("/states",$scope.config_json)
+		AddressService.satesLoad()
 		.then(function sucess(response){
 			$scope.states = response.data;
 		}, function error(){
@@ -141,8 +130,7 @@ app.controller("clientController",function($scope, $http, $routeParams){
 
 	//load cities
 	$scope.citiesLoad = function(stateId){
-		$http
-		.get("/cities/"+stateId,$scope.config_json)
+		AddressService.citiesLoad(stateId)
 		.then(function sucess(response){
 			$scope.cities = response.data;
 			document.getElementById("city").options[0].disabled = true;

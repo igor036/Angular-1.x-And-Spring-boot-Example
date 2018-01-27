@@ -1,4 +1,4 @@
-app.controller("providerController",function($scope, $http, $routeParams){
+app.controller("providerController",function($scope, $routeParams,ProviderService, AddressService){
 	
 	load();
 
@@ -9,10 +9,8 @@ app.controller("providerController",function($scope, $http, $routeParams){
 
 	//load providers for edit
 	if($routeParams.id){
-		$http({
-			method: "GET",
-			url: "/providers/"+$routeParams.id,
-		}).then(function(response){
+		
+		ProviderService.provider($routeParams.id).then(function(response){
 			if (response.data) {
 				$("#submit").val("Editar fornecedor");
 				$("#msg").html("Editar fornecedor");
@@ -36,10 +34,7 @@ app.controller("providerController",function($scope, $http, $routeParams){
 
 	//function's
 	$scope.loadProviders = function (){
-		$http({
-			method: "GET",
-			url: "/providers?pagIndex="+$scope.pag_index,
-		}).then(function(response){
+		ProviderService.loadProviders($scope.pag_index).then(function(response){
 			$scope.providers = response.data;
 			if ($scope.providers.length == 0 && $scope.pag_index > 0){
 				$scope.pag_index--;
@@ -52,10 +47,7 @@ app.controller("providerController",function($scope, $http, $routeParams){
 	};
 
 	$scope.loadPagesCount = function(){
-		$http({
-			method: "GET",
-			url: "/providers/pagesCount",
-		}).then(function(response){
+		ProviderService.loadPagesCount().then(function(response){
 			if (response.data) {
 				$scope.pagesCount = response.data;
 			 }else
@@ -78,11 +70,9 @@ app.controller("providerController",function($scope, $http, $routeParams){
 	$scope.post = function(provider){
 		
 		if (validationSubmit('form'))  {
+			
 			$scope.provider.photo = $("#photo").prop("src");
-			console.log($scope.provider);
-			$http
-			.post("/providers/save/", $scope.provider, $scope.config_json)
-			.then(function success(response){
+			ProviderService.post($scope.provider).then(function success(response){
 				if(response.data){
 					$.jGrowl("Concluído com sucesso!");
 					$scope.customers.push(response.data);
@@ -107,9 +97,7 @@ app.controller("providerController",function($scope, $http, $routeParams){
 		            keys: ['enter', 'shift'],
 		            action: function(){
 						//request 
-						console.log(providerId);
-						$http
-						.delete("/providers/"+providerId, $scope.config_text)
+						ProviderService.delete(providerId)
 						.then(function success(response){
 							if (response.data == "deleted") {
 								$scope.loadProviders();
@@ -134,8 +122,7 @@ app.controller("providerController",function($scope, $http, $routeParams){
 
 	//load states	
 	$scope.satesLoad = function(){
-		$http
-		.get("/states",$scope.config_json)
+		AddressService.satesLoad()
 		.then(function sucess(response){
 			$scope.states = response.data;
 		}, function error(){
@@ -145,8 +132,7 @@ app.controller("providerController",function($scope, $http, $routeParams){
 
 	//load cities
 	$scope.citiesLoad = function(stateId){
-		$http
-		.get("/cities/"+stateId,$scope.config_json)
+		AddressService.citiesLoad(stateId)
 		.then(function sucess(response){
 			$scope.cities = response.data;
 			document.getElementById("city").options[0].disabled = true;
