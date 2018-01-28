@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.linecode.shop.dao.BookDao;
 import com.linecode.shop.model.Book;
-import com.linecode.shop.service.ServiceFile;
+import com.linecode.shop.service.FileService;
 
 @Controller
 public class BookController {
@@ -24,7 +24,7 @@ public class BookController {
 	private BookDao bookDao;
 	
 	@Autowired
-	private ServiceFile serviceFile;
+	private FileService serviceFile;
 	
 	@GetMapping("/books")
 	@ResponseBody
@@ -36,7 +36,6 @@ public class BookController {
 	@GetMapping("/books/pagesCount")
 	@ResponseBody
 	public int pagesCount() {
-		System.out.println("count");
 		return bookDao.pagesCount();
 	}
 	

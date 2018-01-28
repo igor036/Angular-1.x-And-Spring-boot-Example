@@ -2,7 +2,7 @@ var app = angular.module("shop", ["ngRoute"]);
 app.config(function($routeProvider) {
     $routeProvider
     
-    //client
+    //----------- client ----------------------
     .when("/customers", {
         controller : "clientController",
         templateUrl : "/client/list.htm"
@@ -16,7 +16,7 @@ app.config(function($routeProvider) {
         templateUrl : "/client/form.htm"
     })
     
-    //provider
+    //----------- provider ------------------
     .when("/providers", {
         controller : "providerController",
         templateUrl : "/provider/list.htm"
@@ -30,7 +30,7 @@ app.config(function($routeProvider) {
         templateUrl : "/provider/form.htm"
     })
     
-    //book
+    //----------- book ---------------------
     .when("/books", {
         controller : "bookController",
         templateUrl : "/book/list.htm"
@@ -42,6 +42,11 @@ app.config(function($routeProvider) {
     .when("/editBook/:id", {
         controller : "bookController",
         templateUrl : "/book/form.htm"
+    })
+
+    //----------- shop ------------------
+    .when("/shop", {
+        controller : "shopController",
+        templateUrl : "/shop/shop.htm"
     });
-    
 });

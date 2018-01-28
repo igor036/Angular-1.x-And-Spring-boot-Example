@@ -20,9 +20,12 @@ public class Book implements Serializable {
 	private long id;
 
 	@Column
-	private String author;
+	private String name;
 	
 	@Column
+	private String author;
+	
+	@Column(columnDefinition = "TEXT")
 	private String description;
 	
 	@Column
@@ -37,6 +40,26 @@ public class Book implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Provider provider;
 
+	@Column
+	private float price;
+	
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public float getPrice() {
+		return price;
+	}
+	
+	public void setPrice(float price) {
+		this.price = price;
+	}
+	
 	public long getId() {
 		return id;
 	}

@@ -77,3 +77,11 @@ file{
 	background-color: #4169E1;
 	color: white;
 }
+
+.img-btn:hover {
+	filter: grayscale(100%);
+}
+
+.img-btn:active {
+	filter: blur(2px);	
+}

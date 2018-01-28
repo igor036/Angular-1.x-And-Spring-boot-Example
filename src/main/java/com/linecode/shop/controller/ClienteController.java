@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.linecode.shop.dao.ClientDao;
 import com.linecode.shop.model.Client;
-import com.linecode.shop.service.ServiceFile;
+import com.linecode.shop.service.FileService;
 
 @Controller
 public class ClienteController {
@@ -24,7 +24,7 @@ public class ClienteController {
 	private ClientDao clientDao;
 	
 	@Autowired
-	private ServiceFile serviceFile;
+	private FileService serviceFile;
 	
 	@GetMapping("/customers")
 	@ResponseBody

@@ -12,14 +12,14 @@
 		<a style="float: left; padding: 10px" href="#!newBook">Cadastrar&nbsp;<img src="icon/add.png" width="20px"/></a>
 		<table ng-show="!errorMsg" class="table">
 			<thead class="table-dark">
-				<td scope="col">Descrição</td>
+				<td scope="col">Nome</td>
 				<td scope="col">Autor</td>
 				<td scope="col">Ano Publicação</td>
 				<td></td>
 				<td></td>
 			</thead>
 			<tr scope="row" ng-repeat="book in bookList = (books | filter:search)">
-				<td>{{book.description}}</td>
+				<td>{{book.name}}</td>
 				<td>{{book.author}}</td>
 				<td>{{book.year}}</td>
 				<td>

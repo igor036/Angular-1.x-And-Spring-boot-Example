@@ -14,7 +14,7 @@ app.controller("bookController",function($scope, $routeParams,BookService){
 				$("#submit").val("Editar cliente");
 				$("#msg").html("Editar cliente");
 				$scope.book = response.data;
-				
+				$scope.search = $scope.book.provider.name;
 				//load photo
 				$("#photo").prop("src",$scope.book.photo);
 				

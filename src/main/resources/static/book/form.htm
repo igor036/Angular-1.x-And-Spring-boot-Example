@@ -23,9 +23,9 @@
 
 		<div class="row">
 			<div class="col-lg-6">
-				<span name="xpan" value="Digite a Descrição." for="name-empty">Pre-encha: </span>
-				Descrição:
-				<input type="text" ng-model="book.description" title="Description" id="description" class="xval-notEmpty form-control" placeholder="Descrição"/>
+				<span name="xpan" value="Digite o nome." for="name-empty">Pre-encha: </span>
+				Nome:
+				<input type="text" ng-model="book.name" title="Description" id="name" class="xval-notEmpty form-control" placeholder="Descrição"/>
 			</div>
 			<div class="col-lg-6">
 				<span name="xpan" value="Digite o nome do Autor" for="author-empty">Pre-encha: </span>
@@ -35,12 +35,12 @@
 		</div>
 		
 		<br/>
-		
+	
 		<div class="row">
 			<div class="col-lg-9" ng-init="book.provider = ''">
 				<span name="xpan" value="Digite o Fornecedor" for="provider-empty">Pre-encha: </span>
 				Fornecedor:
-				<input type="text" id="provider" class="form-control" ng-model="search" ng-keyup="providerSearch(search)" /> 
+				<input type="text" id="provider" class="xval-notEmpty form-control" ng-model="search" ng-keyup="providerSearch(search)" /> 
 				<ul class="list-group">
 					<li class="list-group-item" ng-repeat="provider in providers" ng-click="selectProvider(provider)">
 						{{provider.name}}
@@ -48,7 +48,7 @@
 				</ul>
 			</div>
 		</div>
-		
+		<br/>
 		<div class="row">
 			<div class="col-lg-3">
 				<span name="xpan" value="Digite o Ano de Publicação" for="year-empty">Pre-encha: </span>
@@ -61,10 +61,26 @@
 				N. Páginas:
 				<input type="number" ng-model="book.pages" id="pages" class="xval-notEmpty form-control" placeholder="Número de páginas"/>
 			</div>
+
+			<div class="col-lg-3">
+				<span name="xpan" value="Digite o valor" for="pages-empty">Pre-encha: </span>
+				Preço:
+				<input type="text" ng-model="book.price" id="prices" class="xval-notEmpty form-control" placeholder="Preço"/>
+			</div>
 		</div>
-		
 		<br/>
-		<input id="submit" type="submit" ng-click="post(book);" value="Cadastrar" class="btn btn-primary form-control" />
-		
+		<div class="row">
+
+			<div class="col-lg-12">
+				<span name="xpan" value="Digite a Descrição." for="description-empty">Pre-encha: </span>
+				Descrição:
+				<textarea ng-model="book.description" title="Description" id="description" class="xval-notEmpty form-control" placeholder="Descrição">
+				</textarea>
+			</div>
+			<div class="col-lg-12">
+				<br/>
+				<input id="submit" type="submit" ng-click="post(book);" value="Cadastrar" class="btn btn-primary form-control" />
+			</div>
+		</div>
 	</form>
 </div>

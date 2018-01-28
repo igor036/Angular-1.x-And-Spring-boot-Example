@@ -67,6 +67,7 @@ function load(){
 	$("input[id*='data']").mask("00/00/0000");
 	$("input[id*='cpf']").mask("000.000.000-00");
 	$("input[id*='cep']").mask("00000-000");
+	$("input[id*='price']").mask("00.00");
 
 	$("span")
 		.filter("[name=xpan]")
@@ -94,6 +95,10 @@ function validationSubmit(xgroup) {
 	});
 	
 	$.map($("#" + xgroup + " select").filter("[class*=xval]"), function (component) {
+		validarComponente(component,true);
+	});
+	
+	$.map($("#" + xgroup + " textarea").filter("[class*=xval]"), function (component) {
 		validarComponente(component,true);
 	});
 

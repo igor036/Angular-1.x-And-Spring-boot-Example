@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 @Service
-public class ServiceFile {
+public class FileService {
 
 	/*
 	 * !!! Attention !!!	
@@ -98,13 +98,13 @@ public class ServiceFile {
 			return true;
 		
 		String strBase64 = book.getPhoto().replaceAll("data:image/jpeg;base64,", "");
-		String urlPhoto = strPath+"/"+book.getDescription()+".jpg";
+		String urlPhoto = strPath+"/"+book.getName()+".jpg";
 		
 		
 		if (!savePhoto(strBase64, urlPhoto))
 			return false;
 		
-		book.setPhoto("http://localhost/book_photos//"+book.getDescription()+".jpg");
+		book.setPhoto("http://localhost/book_photos//"+book.getName()+".jpg");
 		return true;
 		
 	}
