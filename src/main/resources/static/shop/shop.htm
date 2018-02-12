@@ -1,42 +1,100 @@
 <div class="center-div" ng-init="loadBooks();">
-	<div class="containner">
+    
+    <div class="containner" id="shop">
 		<div class="text-center">
-           
-           <div style="float: right;">
-           		<span>Carrinho de copras.</span>
-           		<br/>
-           		<img src="icon/cart.png" class= "img-btn" style="float: right;" width="50px"/>
-           </div> 
-            
-            <br/>
-            <h3><b>Loja Virtual</b></h3>
-            <hr/>
+			<div style="float: right;">
+				<span>Carrinho de copras.</span> <br /> <img src="icon/cart.png"
+					class="img-btn" style="float: right;" width="50px" ng-click="showCart();" />
+			</div>
 
-            <span style="float: left;" class="gray-span">Filtro:</span><br/>
-            <input type="text" placeholder="Pesquisar" ng-model="search" class="form form-control col-lg-3"/><br>
-            
-            <div class="row">
-                <div ng-repeat="book in bookList = (books | filter:search)" class="col-lg-3">
-                    <span class="centered"><b>{{book.name}}</b></span>
-                    <img src="{{book.photo}}" class="img-btn" style="width: 170px; height: 200px;"/>
-                    <hr/>
-                </div>
-            </div>
-            <span class="gray-span">Total Livros: {{bookList.length}}</span>
-            <div class="text-center">
-                <b> Página: {{pag_index}} de: {{pagesCount}} </b>
-                <br/>
-                <button class="btn btn-primary" 
-                        ng-disabled="pag_index <= 1" 
-                        ng-click="previousPag();">
-                    Anterior
-                </button>
-                <button class="btn btn-success"
-                        ng-disabled="pag_index == pagesCount"
-                        ng-click="nextPag();">
-                    Próxima
-                </button>
-            </div>
-        </div>  
-     </div>
+			<br />
+			<h3>
+				<b>Loja Virtual</b>
+			</h3>
+			<hr />
+
+			<span style="float: left;" class="gray-span">Filtro:</span><br /> <input
+				type="text" placeholder="Pesquisar" ng-model="search"
+				class="form form-control col-lg-3" /><br>
+
+			<div class="row">
+				<div ng-repeat="book in bookList = (books | filter:search)" class="col-lg-3">
+                    <span class="centered"><b>{{book.name}}</b></span> 
+					<img src="{{book.photo}}" class="img-btn" style="width: 170px; height: 200px;" 
+						ng-mouseenter="showModal(book,$event);" />
+                    <sapn style="color:green">Preço: R$: {{book.price}}</span>
+					<hr />
+				</div>
+			</div>
+			
+			<div class="min-modal">
+				<h4 class="close-modal">X</h4>
+				<b>Autor: </b>{{book.author}}<br/>
+				<b>N°Páginas: </b>{{book.pages}}<br/>
+				<b>Descrição: </b>{{book.description}}<br/>
+				<br/>
+				<hr/>
+				
+				<div class="row">
+					<span style="padding-top: 10px;" class="col-lg-2">Quantia: </span>
+					<div class="col-lg-3">
+						<input ng-model="amount" type="number" class="form form-control" value="1" min="1" />
+					</div>
+					<div class="col-lg-6" style="padding-top: 10px;">
+						{{book.price}} x {{amount}} = {{book.price * amount | currency}}
+					</div>
+				</div>
+				<br/>
+				<button ng-click="addToCart();" class="btn btn-primary">Adicionar ao carrinho</button>
+			</div>
+			
+			<span class="gray-span">Total Livros: {{bookList.length}}</span>
+			<div class="text-center">
+				<b> Página: {{pag_index}} de: {{pagesCount}} </b> <br />
+				<button class="btn btn-primary" ng-disabled="pag_index <= 1" ng-click="previousPag();">Anterior</button>
+				<button class="btn btn-success"ng-disabled="pag_index == pagesCount" ng-click="nextPag();">Próxima</button>
+			</div>
+        </div>
+	</div>
+
+	<div class="containner" id="cart" style="display: none">
+		<div class="text-center">
+
+			<div style="float: right;">
+				<span>Voltar para a Loja</span> <br /> <img src="icon/shop.jpeg"
+					class="img-btn" style="float: right;" width="50px" ng-click="showShop();" />
+			</div>
+			<br/>
+
+			<h3><b>Carrinho de compras</b></h3>
+			<hr/>
+
+			<div class="row">
+				<div class="col-lg-12" ng-show="cart.length == 0">
+					<div class="alert alert-danger" role="alert">
+						O carrinho de compras está vázio!
+					</div>
+				</div>
+			</div>
+
+			<table ng-show="cart.length > 0" class="table">
+				<thead class="table-dark">
+					<td scope="col">Nome</td>
+					<td scope="col">Valor</td>
+					<td scope="col">Quantia</td>
+					<td>Total</td>
+					<td></td>
+				</thead>
+				<tr scope="row" ng-repeat="item in itemList = (cart | filter:search)">
+					<td>{{item.book.name}}</td>
+					<td>{{item.book.price}}</td>
+					<td>{{item.amount}}</td>
+					<td>{{item.book.price * item.amount}}</td>
+					<td>
+						<button class="btn btn-danger" ng-click="removeFromCart(item);">Remover</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
 </div>
