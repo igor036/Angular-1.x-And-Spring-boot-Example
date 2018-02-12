@@ -77,24 +77,28 @@
 				</div>
 			</div>
 
-			<table ng-show="cart.length > 0" class="table">
-				<thead class="table-dark">
-					<td scope="col">Nome</td>
-					<td scope="col">Valor</td>
-					<td scope="col">Quantia</td>
-					<td>Total</td>
-					<td></td>
-				</thead>
-				<tr scope="row" ng-repeat="item in itemList = (cart | filter:search)">
-					<td>{{item.book.name}}</td>
-					<td>{{item.book.price}}</td>
-					<td>{{item.amount}}</td>
-					<td>{{item.book.price * item.amount}}</td>
-					<td>
-						<button class="btn btn-danger" ng-click="removeFromCart(item);">Remover</button>
-					</td>
-				</tr>
-			</table>
+			<div ng-show="cart.length > 0">
+				<table class="table">
+					<thead class="table-dark">
+						<td scope="col">Nome</td>
+						<td scope="col">Valor</td>
+						<td scope="col">Quantia</td>
+						<td>Total</td>
+						<td></td>
+					</thead>
+					<tr scope="row" ng-repeat="item in itemList = (cart | filter:search)">
+						<td>{{item.book.name}}</td>
+						<td>{{item.book.price | currency}}</td>
+						<td>{{item.amount}}</td>
+						<td>{{item.book.price * item.amount | currency}}</td>
+						<td>
+							<button class="btn btn-danger" ng-click="removeFromCart(item);">Remover</button>
+						</td>
+					</tr>
+				</table>
+				<br/>
+				<button class="btn btn-info" ng-sh>Finalizar compra</button>
+			</div>
 		</div>
 	</div>
 </div>

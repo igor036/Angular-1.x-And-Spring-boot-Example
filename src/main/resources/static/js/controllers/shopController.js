@@ -84,4 +84,47 @@ app.controller("shopController", function($scope, BookService) {
 			return arg.book.id != item.book.id;
 		});
 	};
+
+
+	/*
+	 * ------------------ draged modal ---------------------
+	 */
+
+	var isDragging = false;
+	var primaryLocation;
+
+	$("#shop")
+	.mousedown(function(event) {
+		isDragging = true;
+		primaryLocation =  {
+			left: event.pageX,
+			top: event.pageY 
+		};
+
+	})
+	.mousemove(function(event) {
+
+		if(isDragging) {
+			
+			let modal = $(".min-modal");
+			let location = {
+				left: event.pageX - modal.width() / 2,
+				top:  event.pageY - modal.height() / 2
+			};
+
+			/* not work
+			let location = {
+				left: modal.offset().left + event.pageX - primaryLocation.left,
+				top:  modal.offset().top + event.pageY - primaryLocation.top
+			};
+			*/
+
+			modal.offset(location);
+		}
+	 })
+	.mouseup(function() {
+		isDragging = false;
+		console.log("up");
+	});
+
 });

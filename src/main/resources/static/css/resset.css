@@ -96,7 +96,7 @@ file{
 	height: auto;
 	position: absolute;
     border-radius: 7%;
-	box-shadow: 1px 1px 1px 1px #888888;
+	box-shadow: 3px 3px 3px 3px #888888;
 	text-align: left;
 }
 
