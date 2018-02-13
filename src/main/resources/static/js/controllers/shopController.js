@@ -1,8 +1,14 @@
-app.controller("shopController", function($scope, BookService) {
+app.controller("shopController", function($scope, BookService , ClientService) {
+
+	load();	
 
 	//var's
 	$scope.pag_index = 1;
-	$scope.cart = [];
+	$scope.clients = [];
+	$scope.sale = {	
+			client: NaN,
+			products: []
+		}
 
 	//function's
 	$scope.loadBooks = function() {
@@ -48,6 +54,32 @@ app.controller("shopController", function($scope, BookService) {
 			.offset({left: event.pageX, top: event.pageY});
 	};
 
+	$scope.addToCart = function() {
+
+		var exist = false;
+
+		for (var i = 0; i < $scope.sale.products.length; i++) {
+			if ($scope.sale.products[i].book.id == $scope.book.id) {
+				$scope.sale.products[i].amount += $scope.amount; 
+				exist = true;
+			}
+		}
+
+		if (!exist) {
+
+			let item = { 
+				"book": $scope.book, 
+				"amount": $scope.amount
+			};
+
+			$scope.sale.products.push(item);
+			$scope.hideModal();
+
+		}
+		
+		$.jGrowl("O livro foi adicionado ao carrinho de compras!");
+	};
+
 	$scope.hideModal = function() {
 		$(".min-modal").hide("fast");
 	};
@@ -57,21 +89,10 @@ app.controller("shopController", function($scope, BookService) {
 		$scope.hideModal();
 	});
 
-	$scope.addToCart = function() {
-		
-		let item = { 
-				"book": $scope.book, 
-				"amount": $scope.amount
-			};
-
-		$scope.cart.push(item);
-		$scope.hideModal();
-		$.jGrowl("O livro foi adicionado ao carrinho de compras!");
-	};
-
 	$scope.showCart = function(){
 		$("#shop").hide("fast");
 		$("#cart").show("fast");
+		$scope.hideModal();
 	};
 
 	$scope.showShop = function(){
@@ -80,11 +101,65 @@ app.controller("shopController", function($scope, BookService) {
 	};
 
 	$scope.removeFromCart = function(item){
-		$scope.cart = $scope.cart.filter(function(arg){
+		$scope.sale.products = $scope.sale.products.filter(function(arg){
 			return arg.book.id != item.book.id;
 		});
+		$.jGrowl("Removido com sucesso!");
 	};
 
+	$scope.clientSearch = function(search){
+		if (search) {
+			ClientService.clientSearch(search).then(function(response){
+				if (response.data) {
+					$scope.clients = response.data;
+				 }
+			});
+		} else 
+			$scope.clients = [];
+	};
+
+	$scope.selectClient = function(client){
+		console.log(client);
+		$scope.sale.client = client;
+		$scope.clients = [];
+		$scope.search = client.name;
+	};
+	
+	$scope.total = function(){
+
+		let totalValue =  0;
+		$scope.sale.products.forEach(function(product) {
+			totalValue += product.amount * product.book.price;
+		});
+
+		return totalValue;
+	};
+
+	$scope.purchase = function(){
+
+		$.confirm({
+			title: 'Atenção',
+			content: 'Tem certeza que deseja excluír o fornecedor ?',
+			animation: 'Rotate',
+			buttons: {
+				confirm: {
+					text: 'Confirmar',
+		            btnClass: 'btn-warning',
+		            keys: ['enter', 'shift'],
+		            action: function(){
+						$scope.sale = $scope.sale;
+		        	}
+				},
+				cancel: {
+					text: 'Cancelar',
+		            btnClass: 'btn-dark',
+		            keys: ['enter', 'shift']
+				}
+			}	
+		});
+
+		$scope.sale = $scope.sale;
+	};
 
 	/*
 	 * ------------------ draged modal ---------------------
@@ -108,8 +183,8 @@ app.controller("shopController", function($scope, BookService) {
 			
 			let modal = $(".min-modal");
 			let location = {
-				left: event.pageX - modal.width() / 2,
-				top:  event.pageY - modal.height() / 2
+				left: event.pageX - modal.width()/2,
+				top:  event.pageY - modal.height()/2 
 			};
 
 			/* not work

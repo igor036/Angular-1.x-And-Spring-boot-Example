@@ -1,7 +1,5 @@
 package com.linecode.shop.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Provider implements Serializable {
+public class Provider  implements IEntity  {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -33,6 +31,7 @@ public class Provider implements Serializable {
 	@Column
 	private String photo;
 
+	@Override
 	public long getId() {
 		return id;
 	}

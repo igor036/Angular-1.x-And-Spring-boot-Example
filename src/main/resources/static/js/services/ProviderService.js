@@ -4,7 +4,7 @@ app.factory("ProviderService",function($http){
 	var config_json = {headers: {'Content-Type': 'application/json'}};
 	
 	return {
-		provider: function(){
+		provider: function(id){
 			return $http({method: "GET",url: "/providers/"+id,});
 		},
 		

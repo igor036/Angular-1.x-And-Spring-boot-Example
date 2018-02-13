@@ -6,11 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.linecode.shop.dao.CitiesDao;
+import com.linecode.shop.dao.ProductDao;
+import com.linecode.shop.dao.SaleDao;
 import com.linecode.shop.dao.StatesDao;
 import com.linecode.shop.model.Cities;
+import com.linecode.shop.model.Sale;
 import com.linecode.shop.model.States;
 
 @Controller
@@ -22,6 +26,12 @@ public class SessionController {
 	@Autowired
 	private CitiesDao citiesDao;
 	
+	@Autowired
+	private SaleDao saleDao;
+	
+	@Autowired
+	private ProductDao productDao;
+
 	@GetMapping("/")
 	public String index() {
 		return "index";
@@ -39,4 +49,18 @@ public class SessionController {
 		return citiesDao.citiesByState(id);
 	}
 	
+	@PostMapping("/purchase")
+	public String purchase(Sale sale) {
+		
+		try {
+			
+			System.out.println(sale.getClient().getName());
+			
+			return "sucess";
+			
+		}catch (Exception ex) {
+			ex.printStackTrace();
+			return "erro";
+		}
+	}
 }

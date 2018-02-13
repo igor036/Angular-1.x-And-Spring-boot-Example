@@ -9,6 +9,10 @@ app.factory('ClientService',function($http){
 			return $http({method: "GET",url: "/customers/"+clientId});
 		},
 		
+		clientSearch: function(search){
+			return $http({method: "GET",url: "/customers/search?name="+search,});
+		},
+
 		loadCustomers: function(pag_index) {
 			return $http({ method: "GET", url: "/customers?pagIndex="+pag_index,});
 		},

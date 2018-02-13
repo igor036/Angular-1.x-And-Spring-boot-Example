@@ -40,7 +40,7 @@
 			<div class="col-lg-9" ng-init="book.provider = ''">
 				<span name="xpan" value="Digite o Fornecedor" for="provider-empty">Pre-encha: </span>
 				Fornecedor:
-				<input type="text" id="provider" class="xval-notEmpty form-control" ng-model="search" ng-keyup="providerSearch(search)" /> 
+				<input type="text" id="provider" autocomplete="off" class="xval-notEmpty form-control" ng-model="search" ng-keyup="providerSearch(search)" /> 
 				<ul class="list-group">
 					<li class="list-group-item" ng-repeat="provider in providers" ng-click="selectProvider(provider)">
 						{{provider.name}}

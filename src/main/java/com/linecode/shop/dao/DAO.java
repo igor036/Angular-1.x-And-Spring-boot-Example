@@ -9,6 +9,8 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.linecode.shop.model.IEntity;
+
 
 @Repository
 @Transactional(rollbackFor = Exception.class)
@@ -29,19 +31,27 @@ public abstract class DAO <T> {
 	
 	public T insertOrUpdate(T object) {
 		try {
-			entityManager.merge(object);
+			
+			log("INSERT/UPDATE", (object = entityManager.merge(object)));
 			entityManager.flush();
+			
 			return object;
+			
 		}catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
+	
 	}
 	
 	
 	public boolean delete(T object) {
 		try {
+			
+			
 			entityManager.remove(object);
 			entityManager.flush();
+			log("DELETE", object);
 			return true;
 		}catch (Exception e) {
 			return false;
@@ -55,7 +65,10 @@ public abstract class DAO <T> {
 			
 			if (object == null)
 				return false;
-			return delete(object);
+			
+			delete(object);
+			log("DELETE", object);
+			return true;
 			
 		}catch (Exception e) {
 			return false;
@@ -74,7 +87,7 @@ public abstract class DAO <T> {
 		 */
 		int offset = (index-1) * PAGE_COUNT;
 		
-		String queryStr = " SELECT * FROM "+classType.getSimpleName() +
+		String queryStr = " SELECT * FROM "+classType.getSimpleName()+
 						  " ORDER BY id LIMIT :limit"+
 						  " OFFSET :offset";
 	
@@ -102,5 +115,27 @@ public abstract class DAO <T> {
 		return entityManager
 				.createNativeQuery("SELECT * FROM "+classType.getSimpleName(), classType)
 				.getResultList();
+	}
+	
+	private void log(String action, Object object) throws Exception {
+		
+		try {
+			
+		
+			String strQuery = "INSERT INTO log(nm_table, action, id_table)"+ 
+							  "VALUES (:table, :action, :id_table)";
+			
+			Query query = entityManager.createNativeQuery(strQuery);
+			query.setParameter("table", classType.getSimpleName().toLowerCase());
+			query.setParameter("action",action);
+			query.setParameter("id_table", ((IEntity)object).getId() );
+			
+			query.executeUpdate();
+			
+		}catch (Exception ex) {
+			
+			ex.printStackTrace();
+			throw ex;
+		}
 	}
 }

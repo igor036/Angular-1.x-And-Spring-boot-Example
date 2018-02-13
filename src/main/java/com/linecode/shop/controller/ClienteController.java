@@ -33,6 +33,12 @@ public class ClienteController {
 		return clientDao.page(pagIndex);
 	}
 	
+	@GetMapping("/customers/search")
+	@ResponseBody
+	public List<Client> search(@RequestParam("name") String name){
+		return clientDao.search(name);
+	}
+	
 	@GetMapping("/customers/pagesCount")
 	@ResponseBody
 	public int pagesCount() {
