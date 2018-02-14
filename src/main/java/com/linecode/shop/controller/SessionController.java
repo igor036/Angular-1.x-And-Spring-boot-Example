@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.linecode.shop.dao.CitiesDao;
@@ -50,11 +51,12 @@ public class SessionController {
 	}
 	
 	@PostMapping("/purchase")
-	public String purchase(Sale sale) {
+	@ResponseBody
+	public String purchase(@RequestBody Sale sale) {
 		
 		try {
 			
-			System.out.println(sale.getClient().getName());
+			System.out.println(sale.getProducts().size());
 			
 			return "sucess";
 			

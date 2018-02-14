@@ -1,0 +1,82 @@
+<div class="center-div" ng-init="loadCart();">
+
+	<div class="containner">
+		<div class="text-center">
+
+			<div style="float: right;">
+                <span>Voltar para a Loja</span> <br />
+                <a href="#!shop">
+                    <img src="icon/shop.jpeg" class="img-btn" style="float: right;" width="50px" />
+                </a>
+			</div>
+			<br />
+
+			<h3>
+				<b>Carrinho de compras</b>
+			</h3>
+			<hr />
+
+			<div class="row">
+				<div class="col-lg-12" ng-show="sale.length == 0">
+					<div class="alert alert-danger" role="alert">O carrinho de
+						compras está vázio!</div>
+				</div>
+			</div>
+
+			<div ng-show="sale.length > 0">
+				<table class="table">
+					<thead class="table-dark">
+						<td scope="col">Nome</td>
+						<td scope="col">Valor</td>
+						<td scope="col">Quantia</td>
+						<td>Total</td>
+						<td></td>
+					</thead>
+					<tr scope="row" ng-repeat="item in sale">
+						<td>{{item.book.name}}</td>
+						<td>{{item.book.price | currency}}</td>
+						<td>{{item.amount}}</td>
+						<td>{{item.book.price * item.amount | currency}}</td>
+						<td>
+							<button class="btn btn-danger" ng-click="removeFromCart(item);">Remover</button>
+						</td>
+					</tr>
+				</table>
+				<br /> <span> <b>Preço total da compra: {{total() |
+						currency}}</b>
+				</span>
+				<hr />
+
+				<div class="row">
+					<div class="col-lg-9">
+						<div style="float: left;">
+							<span name="xpan" value="Nome do Cliente" for="provider-empty">Pre-encha:
+							</span> Cliente:
+						</div>
+						<input type="text" id="client" autocomplete="off"
+							class="xval-notEmpty form-control" ng-model="search"
+							ng-keyup="clientSearch(search)" />
+						<ul class="list-group">
+							<li class="list-group-item" ng-repeat="client in clients"
+								ng-click="selectClient(client);">{{client.name}}</li>
+						</ul>
+					</div>
+                </div>
+                
+				<br />
+
+				<div class="alert alert-primary" role="alert"
+					ng-show="client">
+					<b>Cliente Selecionado: </b> {{client.name}}
+				</div>
+				<div class="alert alert-danger" role="alert" ng-show="!client">
+					Não há cliente selecionado.</div>
+
+				<br />
+				<button class="btn btn-info" ng-disabled="!client"
+					ng-click="purchase();">Finalizar compra</button>
+			</div>
+
+		</div>
+	</div>
+</div>

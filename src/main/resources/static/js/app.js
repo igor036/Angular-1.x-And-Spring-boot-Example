@@ -48,5 +48,10 @@ app.config(function($routeProvider) {
     .when("/shop", {
         controller : "shopController",
         templateUrl : "/shop/shop.htm"
+    })
+
+    .when("/cart", {
+        controller : "shopController",
+        templateUrl : "/shop/cart.htm"
     });
 });

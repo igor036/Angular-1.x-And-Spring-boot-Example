@@ -1,16 +1,26 @@
-app.controller("shopController", function($scope, BookService , ClientService) {
+app.controller("shopController", function($scope, $routeParams, $location, BookService , ClientService, ShopService) {
 
 	load();	
 
 	//var's
 	$scope.pag_index = 1;
 	$scope.clients = [];
-	$scope.sale = {	
-			client: NaN,
-			products: []
-		}
+
+	if(sessionStorage.getItem('cart'))
+		$scope.cart = JSON.parse(sessionStorage.getItem('cart'));
+	else
+		$scope.cart = [];
 
 	//function's
+	$scope.loadCart = function(){
+		$scope.sale = [];
+		$scope.cart.forEach(function(item){
+			BookService.book(item.book.id).then(function(response){
+				$scope.sale.push( {book: response.data, amount: item.amount} );
+			});
+		});
+	};
+
 	$scope.loadBooks = function() {
 		BookService.loadBooks($scope.pag_index).then(function(response) {
 			$scope.books = response.data;
@@ -58,9 +68,9 @@ app.controller("shopController", function($scope, BookService , ClientService) {
 
 		var exist = false;
 
-		for (var i = 0; i < $scope.sale.products.length; i++) {
-			if ($scope.sale.products[i].book.id == $scope.book.id) {
-				$scope.sale.products[i].amount += $scope.amount; 
+		for (var i = 0; i < $scope.cart.length; i++) {
+			if ($scope.cart[i].book.id == $scope.book.id) {
+				$scope.cart[i].amount += $scope.amount; 
 				exist = true;
 			}
 		}
@@ -68,19 +78,19 @@ app.controller("shopController", function($scope, BookService , ClientService) {
 		if (!exist) {
 
 			let item = { 
-				"book": $scope.book, 
-				"amount": $scope.amount
+				book: {id: $scope.book.id} , 
+				amount: $scope.amount
 			};
 
-			$scope.sale.products.push(item);
+			$scope.cart.push(item);
 			$scope.hideModal();
 
 		}
 		
 		$.jGrowl("O livro foi adicionado ao carrinho de compras!");
 	};
-
 	$scope.hideModal = function() {
+
 		$(".min-modal").hide("fast");
 	};
 
@@ -89,21 +99,23 @@ app.controller("shopController", function($scope, BookService , ClientService) {
 		$scope.hideModal();
 	});
 
-	$scope.showCart = function(){
-		$("#shop").hide("fast");
-		$("#cart").show("fast");
-		$scope.hideModal();
-	};
-
-	$scope.showShop = function(){
-		$("#cart").hide("fast");
-		$("#shop").show("fast");
+	$scope.goToCart = function(){
+		sessionStorage.setItem('cart', JSON.stringify($scope.cart));
+		$location.path("/cart");
 	};
 
 	$scope.removeFromCart = function(item){
-		$scope.sale.products = $scope.sale.products.filter(function(arg){
-			return arg.book.id != item.book.id;
+		
+		$scope.cart = [];
+		$scope.sale = $scope.sale.filter(function(arg){
+			
+			if (arg.book.id != item.book.id) {
+				$scope.cart.push({book: arg.book.id, amount: arg.amount});
+				return true;
+			}
 		});
+
+		sessionStorage.setItem('cart', JSON.stringify($scope.cart));
 		$.jGrowl("Removido com sucesso!");
 	};
 
@@ -119,27 +131,30 @@ app.controller("shopController", function($scope, BookService , ClientService) {
 	};
 
 	$scope.selectClient = function(client){
-		console.log(client);
-		$scope.sale.client = client;
+		$scope.client = client;
 		$scope.clients = [];
 		$scope.search = client.name;
+		console.log($scope.client);
 	};
 	
 	$scope.total = function(){
 
 		let totalValue =  0;
-		$scope.sale.products.forEach(function(product) {
-			totalValue += product.amount * product.book.price;
+		$scope.sale.forEach(function(item) {
+			totalValue += item.amount * item.book.price;
 		});
 
 		return totalValue;
 	};
 
 	$scope.purchase = function(){
-
 		$.confirm({
 			title: 'Atenção',
-			content: 'Tem certeza que deseja excluír o fornecedor ?',
+			content: '<h3><b>Confira os dados da compra!</b></h3><br/>'+
+					 '<b>Client: </b>'+$scope.client.name+"<br/>"+
+					 '<b>Total de itens: </b>'+$scope.cart.length+"<br/>"+
+					 '<b>Total da compra: </b>R$'+$scope.total(),
+
 			animation: 'Rotate',
 			buttons: {
 				confirm: {
@@ -147,8 +162,16 @@ app.controller("shopController", function($scope, BookService , ClientService) {
 		            btnClass: 'btn-warning',
 		            keys: ['enter', 'shift'],
 		            action: function(){
-						$scope.sale = $scope.sale;
-		        	}
+						
+						let sale = {
+							products: $scope.cart,
+							client: {id: $scope.client.id} 
+						};
+
+						ShopService.purchase(sale).then(function(){
+							$.jGrowl("Compra finalizada com sucesso!");
+						});
+					}
 				},
 				cancel: {
 					text: 'Cancelar',
@@ -157,8 +180,6 @@ app.controller("shopController", function($scope, BookService , ClientService) {
 				}
 			}	
 		});
-
-		$scope.sale = $scope.sale;
 	};
 
 	/*

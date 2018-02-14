@@ -5,6 +5,9 @@ app.factory("ShopService",function($http){
 	
 	return {
 		
+		purchase: function(sale){
+			return $http.post("/purchase", sale, config_json);
+		}
 	}
 	
 });
